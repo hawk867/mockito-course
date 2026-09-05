@@ -50,6 +50,6 @@ public class DataDummy {
             LocalDate.of(2026, 9,10),
             LocalDate.of(2026, 9,15),
             2,
-            false
+            true
     );
 }
