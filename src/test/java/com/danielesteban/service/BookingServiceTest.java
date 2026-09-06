@@ -4,6 +4,7 @@ import com.danielesteban.Services.BookingService;
 import com.danielesteban.Services.PaymentService;
 import com.danielesteban.Services.RoomService;
 import com.danielesteban.dto.BookingDto;
+import com.danielesteban.dto.RoomDto;
 import com.danielesteban.helpers.MailHelper;
 import com.danielesteban.repositories.BookingRepository;
 import com.danielesteban.utils.CurrencyConverter;
@@ -31,6 +32,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
@@ -181,5 +184,21 @@ public class BookingServiceTest {
 
             assertEquals(expected, response);
         }
+    }
+
+    //BDD
+    @Test
+    void shoulCountAvailablePlaces() {
+        //given
+        given(this.roomServiceMock.findAllAvailableRooms())
+                .willReturn(Collections.singletonList(new RoomDto("A1", 2)));
+
+        //when
+        var expected = 2;
+        var response = this.bookingService.getAvailablePlaceCount();
+
+        //then
+        then(roomServiceMock).should(times(1)).findAllAvailableRooms();
+        assertEquals(expected, response);
     }
 }
